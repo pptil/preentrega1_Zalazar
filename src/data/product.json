@@ -1,1 +1,1 @@
-{"data":[{"id":1,"title":"Avena","description":"Se come","code":"CAA221","price":1000,"stock":10,"category":"food"}]}
+{"data":[{"id":1,"title":"Avena","description":"Se come","code":"CAA221","price":1000,"stock":10,"category":"food"},{"id":2,"title":"Chocolate","description":"Negro","code":"CAA323","price":5000,"stock":100,"category":"food"},{"id":3,"title":"Chocolate","description":"blanco","code":"CAA324","price":5000,"stock":100,"category":"food"},{"id":4,"title":"Chocolate","description":"con leche","code":"CAA326","price":5000,"stock":100,"category":"food"}]}

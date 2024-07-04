@@ -20,9 +20,6 @@ class ProductManager{
                 throw error;
             }
         }
-
-
-        
     }
 
     async getProductByID(id){
@@ -46,7 +43,7 @@ class ProductManager{
         const index = this.productList.findIndex(p => p.code === code);
         
         if (index !==-1) 
-        throw new Error(`El producto con el código ${id} ya se encuentra en la lista`);
+        throw new Error(`El producto con el código ${code} ya se encuentra en la lista`);
 
         if (valido) {
             const productoValidado= {
