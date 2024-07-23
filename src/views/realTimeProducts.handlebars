@@ -1,0 +1,70 @@
+<div class="container mt-4">
+        <div class="realtimeproducts mb-4">
+            <h2 class="text-primary border-bottom pb-2">Real-time Products</h2>
+            <div class="rtp-container p-3 bg-light border rounded row"></div>
+        </div>
+        <div class="events row">
+            <div class="add col-md-4 mb-4">
+                <h2 class="text-primary border-bottom pb-2">Add Product</h2>
+                <div class="addform">
+                    <div class="form-group">
+                        <input id="add-title" type="text" class="form-control" placeholder="Set a title for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="add-description" type="text" class="form-control" placeholder="Set a description for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="add-price" type="number" class="form-control" placeholder="Set a price for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="add-code" type="text" class="form-control" placeholder="Set a code for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="add-stock" type="number" class="form-control" placeholder="Set a stock for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="add-category" type="text" class="form-control" placeholder="Set a category for the product">
+                    </div>
+                    <button id="button-add" class="btn btn-primary" onclick="addProduct()">Add</button>
+                </div>
+            </div>
+            <div class="update col-md-4 mb-4">
+                <h2 class="text-primary border-bottom pb-2">Update Product</h2>
+                <div class="updateform">
+                    <div class="form-group">
+                        <input id="update-id" type="text" class="form-control" placeholder="Product ID">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-title" type="text" class="form-control" placeholder="Set a title for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-description" type="text" class="form-control" placeholder="Set a description for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-price" type="number" class="form-control" placeholder="Set a price for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-code" type="text" class="form-control" placeholder="Set a code for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-stock" type="number" class="form-control" placeholder="Set a stock for the product">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-category" type="text" class="form-control" placeholder="Set a category for the product">
+                    </div>
+                    <button id="button-update" class="btn btn-primary" onclick="updateProduct()">Update</button>
+                </div>
+            </div>
+            <div class="delete col-md-4 mb-4">
+                <h2 class="text-primary border-bottom pb-2">Delete Product</h2>
+                <div class="deleteform">
+                    <div class="form-group">
+                        <input id="delete-id" type="text" class="form-control" placeholder="Product ID">
+                    </div>
+                    <button id="button-delete" class="btn btn-danger" onclick="deleteProduct()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./realtimeproducts.js"></script>
