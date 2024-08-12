@@ -1,15 +1,45 @@
-import {Router} from 'express';
-import { __dirname } from '../utils.js';
-import ProductManager from '../class/productManager.js';
+import {
+    Router
+} from 'express';
+import {
+    __dirname
+} from '../utils.js';
+
+import {
+    ProductModel
+} from "../models/Product.Model.js";
 const router = Router();
 
-
-const productManager = new ProductManager(__dirname + '/data/product.json');
-router.get('/', async (req, res)=>{
+router.get('/', async (req, res) => {
     try {
-        const productList = await productManager.getProductList();
-        res.status(201).json({
-            productos: productList
+        const {
+            limit = 10, page = 1, sort = '', ...query
+        } = req.query;
+        const limitN = parseInt(limit);
+        const pageN = parseInt(page);
+
+        const sortManager = {
+            'asc': 1,
+            'desc': -1
+        }
+        const productos = await ProductModel.paginate({
+            ...query
+        }, {
+            limit: limitN,
+            page: pageN,
+            ...(sort && {
+                sort: {
+                    price: sortManager[sort]
+                }
+            }),
+            customLabels: {
+                docs: 'Products'
+            }
+        })
+
+        res.status(200).json({
+            mensaje: 'Products finded',
+            payload: productos
         })
     } catch (error) {
         res.status(400).json({
@@ -18,12 +48,13 @@ router.get('/', async (req, res)=>{
     }
 })
 
-router.get('/:pid', async (req, res)=>{
+router.get('/:pid', async (req, res) => {
     try {
-        const {pid} = req.params
-        const product = await productManager.getProductByID(pid)
-        res.status(201).json({
-            productos: product
+        const id = req.params.pid
+        const producto = await ProductModel.findById(id)
+        res.status(200).json({
+            mensaje: 'Product finded',
+            payload: producto
         })
     } catch (error) {
         res.status(400).json({
@@ -32,12 +63,18 @@ router.get('/:pid', async (req, res)=>{
     }
 })
 
-router.post('/', async (req, res)=>{
+router.post('/', async (req, res) => {
     try {
         const newProduct = req.body
-        await productManager.addProduct(newProduct);
+        await ProductModel.create(newProduct)
+        console.log("se añadió")
+        const productsList = await ProductModel.find()
+        socketServer.emit('realtime', productsList)
         res.status(201).json({
-            message: 'Añadido!'
+            mensaje: 'Product Added succesfully.',
+            payload: {
+                newProduct
+            }
         })
     } catch (error) {
         res.status(400).json({
@@ -47,14 +84,24 @@ router.post('/', async (req, res)=>{
 })
 
 
-router.put('/:id', async (req, res)=>{
+router.put('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const producto = req.body;
-        await productManager.updateProduct(producto, id)
-        res.status(201).json({
-            message: "Producto actualizado!"
-        }) 
+        const id = req.params.pid
+        const newProduct = req.body
+        console.log(id + " info 2: " + newProduct)
+        const updateProduct = await ProductModel.findByIdAndUpdate(id, {
+            ...newProduct
+        }, {
+            new: true
+        })
+        const productsList = await ProductModel.find()
+        socketServer.emit('realtime', productsList)
+        res.status(200).json({
+            mensaje: 'Product modified',
+            payload: {
+                updateProduct
+            }
+        })
     } catch (error) {
         res.status(400).json({
             error: error.message
@@ -62,12 +109,17 @@ router.put('/:id', async (req, res)=>{
     }
 })
 
-router.delete('/:id', async (req, res)=>{
+router.delete('/:id', async (req, res) => {
     try {
-        const {id} = req.params
-        await productManager.deleteProductByID(id)
-        res.status(201).json({
-            message: "Producto eliminado!"
+        const id = req.params.pid
+        await ProductModel.findByIdAndDelete(id)
+        const productsList = await ProductModel.find()
+        socketServer.emit('realtime', productsList)
+        res.status(200).json({
+            "mensaje": `Product deleted`,
+            payload: {
+                id
+            }
         })
     } catch (error) {
         res.status(400).json({

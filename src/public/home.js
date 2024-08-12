@@ -26,9 +26,18 @@ socket.on('home', (data) => {
         price.classList.add('card-text', 'text-primary', 'font-weight-bold');
         price.innerText = '$' + product.price;
 
+        const btnAddCart = document.createElement('button')
+        btnAddCart.innerText = "Add to cart"
+        btnAddCart.onclick = () => {
+            socket.emit("addCart", product._id)
+        }
+
         cardBody.appendChild(title);
         cardBody.appendChild(description);
         cardBody.appendChild(price);
+
+
+        div.appendChild(btnAddCart)
 
         card.appendChild(cardBody);
         div.appendChild(card);

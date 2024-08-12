@@ -6,7 +6,7 @@ socket.on('realtime', (data) => {
     productContainerRealTime.innerHTML = '';
     data.forEach(product => {
         const div = document.createElement('div');
-        div.classList.add(`${product.id}`, 'cart', 'col-md-4', 'mb-4');
+        div.classList.add(`${product._id}`, 'cart', 'col-md-4', 'mb-4');
 
         const card = document.createElement('div');
         card.classList.add('card', 'h-100');
@@ -16,7 +16,7 @@ socket.on('realtime', (data) => {
 
         const id = document.createElement('h5');
         id.classList.add('card-title');
-        id.innerText = `ID: ${product.id}`;
+        id.innerText = `ID: ${product._id}`;
 
         const title = document.createElement('h5');
         title.classList.add('card-title');
@@ -93,7 +93,6 @@ const updateProduct = () => {
     const category = document.querySelector('#update-category').value
 
     const productData = {
-        id,
         title,
         description,
         price,
@@ -103,9 +102,11 @@ const updateProduct = () => {
     }
 
     console.log(productData)
-    socket.emit("modificar-producto",
-        productData
-    )
+
+    socket.emit("modificar-producto", {
+        productData,
+        id
+    })
 
     document.querySelector('#update-id').value = ""
     document.querySelector('#update-title').value = ""
