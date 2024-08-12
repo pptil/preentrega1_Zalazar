@@ -85,7 +85,7 @@ socketServer.on('connection', async (socket) => {
 
             if (!cartSelect) {
                 console.error(`Carrito con ID ${cid} no encontrado.`);
-                return; // Sale de la función si no se encuentra el carrito
+                return;
             }
 
             const indexProd = cartSelect.products.findIndex(prod => prod.product.toString() === pid);
